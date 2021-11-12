@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+    
+    <record model="ir.ui.view" id="view_stock_landed_cost_form">
+        <field name="name">stock.landed.cost.form.inherit.stock_landed_costs_separate</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+        <field name="arch" type="xml">
+            <field name="allowed_picking_ids" position="after">
+                <field name="allowed_stock_move_ids" invisible="1"/>
+            </field>
+            <field name="picking_ids" position="after">
+                <field name="stock_move_ids" widget="many2many_tags" options="{'no_create_edit': True}" domain="[('id', 'in', allowed_stock_move_ids)]" attrs="{'invisible': [('target_model', '!=', 'picking')]}"/>
+            </field>
+        </field>
+    </record>
+    
+    </data>
+</odoo>
