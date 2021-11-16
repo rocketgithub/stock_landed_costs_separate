@@ -6,7 +6,7 @@ class StockLandedCost(models.Model):
     _inherit = 'stock.landed.cost'
     
     stock_move_ids = fields.Many2many(
-        'stock.move', string='Lineas',
+        'stock.move', string='Lineas de recepción',
         copy=False, states={'done': [('readonly', True)]})
     allowed_stock_move_ids = fields.Many2many('stock.move', compute='_compute_allowed_stock_move_ids')
     
