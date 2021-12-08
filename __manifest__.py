@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "stock_landed_costs_separate",
+    'name': "Costes en destino extra",
 
     'summary': """
-        Separar las lineas de una recepcion""",
+        Extra funcionalidad para costes en destino""",
 
     'description': """
-        Separar las lineas de una recepcion
+        Extra funcionalidad para costes en destino
     """,
 
     'author': "aquíH",
@@ -18,6 +18,7 @@
     'depends': ['stock_landed_costs'],
 
     'data': [
-        'views/stock_landed_costs_separate_views.xml',
+        'views/stock_landed_costs_individual_views.xml',
+        'security/ir.model.access.csv',
     ],
 }
