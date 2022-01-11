@@ -9,6 +9,7 @@ class StockLandedCost(models.Model):
     
     individual_cost_line_ids = fields.One2many('stock.landed.cost.individual', 'cost_id', 'Gastos individuales', copy=True, states={'done': [('readonly', True)]})
     allowed_product_ids = fields.Many2many('product.product', compute='_compute_allowed_product_ids')
+    total_ajustes = fields.Monetary('Total de ajustes', compute='_compute_total_ajustes', store=True, tracking=True)
     
     @api.depends('picking_ids')
     def _compute_allowed_product_ids(self):
@@ -17,6 +18,11 @@ class StockLandedCost(models.Model):
             for l in cost.picking_ids.move_lines:
                 product_ids.append(l.product_id.id)
             cost.allowed_product_ids = product_ids
+            
+    @api.depends('valuation_adjustment_lines.additional_landed_cost')
+    def _compute_total_ajustes(self):
+        for cost in self:
+            cost.total_ajustes = sum(line.additional_landed_cost for line in cost.valuation_adjustment_lines)
             
     def compute_landed_cost(self):
         super().compute_landed_cost()

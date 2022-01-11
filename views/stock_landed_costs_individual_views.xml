@@ -9,6 +9,12 @@
             <field name="allowed_picking_ids" position="after">
                 <field name="allowed_product_ids" invisible="1"/>
             </field>
+            <field name="valuation_adjustment_lines" position="after">
+                <group class="oe_subtotal_footer oe_right">
+                    <field name="currency_id" invisible="1"/>
+                    <field name="total_ajustes"/>
+                </group>
+            </field>
             <page name="additional_costs" position="after">
                 <page string="Costes individuales" name="individual_cost">
                     <field name="individual_cost_line_ids" attrs="{'invisible': [('target_model', '!=', 'picking')]}">
