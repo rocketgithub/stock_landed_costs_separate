@@ -6,7 +6,7 @@
         <field name="model">stock.landed.cost</field>
         <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
         <field name="arch" type="xml">
-            <field name="allowed_picking_ids" position="after">
+            <field name="target_model" position="after">
                 <field name="allowed_product_ids" invisible="1"/>
             </field>
             <field name="valuation_adjustment_lines" position="after">
