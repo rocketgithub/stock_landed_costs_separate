@@ -9,6 +9,15 @@
             <field name="allowed_picking_ids" position="after">
                 <field name="allowed_product_ids" invisible="1"/>
             </field>
+            <field name="final_cost" position="after">
+                <field name="unit_final_cost" readonly="1"/>
+            </field>
+            <xpath expr="//tree/field[@name='former_cost']" position="attributes">
+                <attribute name="sum">Total</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='final_cost']" position="attributes">
+                <attribute name="sum">Total</attribute>
+            </xpath>
             <field name="valuation_adjustment_lines" position="after">
                 <group class="oe_subtotal_footer oe_right">
                     <field name="currency_id" invisible="1"/>
@@ -37,7 +46,7 @@
                             <field name="product_id" domain="[('landed_cost_ok', '=', True)]" context="{'default_landed_cost_ok': True, 'default_type': 'service'}"/>
                             <field name="name"/>
                             <field name="account_id" options="{'no_create': True}"/>
-                            <field name="price_unit"/>
+                            <field name="price_unit" sum="Total"/>
                             <field name="product_ids" widget="many2many_tags" domain="[('id', 'in', parent.allowed_product_ids)]"/>
                             <field name="currency_id" invisible="1"/>
                         </tree>
