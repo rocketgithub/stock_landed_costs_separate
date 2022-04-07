@@ -111,6 +111,7 @@ class StockLandedCostindIvidual(models.Model):
 class AdjustmentLines(models.Model):
     _inherit = 'stock.valuation.adjustment.lines'
 
+    additional_indivitual_landed_cost = fields.Monetary('Additional Individual Landed Cost')
     unit_final_cost = fields.Monetary('Nuevo Valor Unitario', compute='_compute_unit_final_cost', store=True)
     
     @api.depends('final_cost', 'quantity')
