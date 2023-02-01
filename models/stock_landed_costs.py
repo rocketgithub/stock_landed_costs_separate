@@ -89,7 +89,7 @@ class StockLandedCost(models.Model):
                 return False
         return True
 
-class StockLandedCostindIndividual(models.Model):
+class StockLandedCostIndividual(models.Model):
     _name = 'stock.landed.cost.individual'
     _description = 'Stock Landed Cost Individual'
     
