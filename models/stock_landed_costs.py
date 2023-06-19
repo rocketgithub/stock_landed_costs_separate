@@ -36,16 +36,17 @@ class StockLandedCost(models.Model):
             for val_line_values in all_val_line_values:
                 if val_line_values['product_id'] not in total_cost_by_product:
                     total_cost_by_product[val_line_values['product_id']] = 0
-                
+
                 former_cost = val_line_values.get('former_cost', 0.0)
                 # round this because former_cost on the valuation lines is also rounded
                 total_cost_by_product[val_line_values['product_id']] += cost.currency_id.round(former_cost)
 
+            already_valuated = []
             for line in cost.individual_cost_line_ids:
                 value_split = 0.0
                 for valuation in cost.valuation_adjustment_lines:
                     value = 0.0
-                    if valuation.product_id and valuation.product_id.id in [p.id for p in line.product_ids]:
+                    if valuation.product_id and valuation.product_id.id not in already_valuated and valuation.product_id.id in [p.id for p in line.product_ids]:
                         total_cost = sum([total_cost_by_product[p.id] for p in line.product_ids])
                         per_unit = (line.price_unit / total_cost)
                         value = valuation.former_cost * per_unit
@@ -60,6 +61,9 @@ class StockLandedCost(models.Model):
                             towrite_dict[valuation.id] = { 'value': value, 'individual_cost_line_id': line.id }
                         else:
                             towrite_dict[valuation.id]['value'] += value
+
+                        already_valuated.append(valuation.product_id.id)
+
         for key, value in towrite_dict.items():
             al = AdjustementLines.browse(key)
             al.write({
