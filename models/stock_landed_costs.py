@@ -48,8 +48,7 @@ class StockLandedCost(models.Model):
                     value = 0.0
                     if valuation.product_id and valuation.product_id.id not in already_valuated and valuation.product_id.id in [p.id for p in line.product_ids]:
                         total_cost = sum([total_cost_by_product[p.id] for p in line.product_ids])
-                        per_unit = (line.price_unit / total_cost)
-                        value = valuation.former_cost * per_unit
+                        value = total_cost_by_product[valuation.product_id.id] / total_cost * line.price_unit
 
                         if rounding:
                             value = tools.float_round(value, precision_rounding=rounding, rounding_method='UP')
@@ -84,10 +83,7 @@ class StockLandedCost(models.Model):
 
             val_to_cost_lines = defaultdict(lambda: 0.0)
             for val_line in landed_cost.valuation_adjustment_lines:
-                logging.warn(val_line.additional_landed_cost)
-                logging.warn(val_line.additional_indivitual_landed_cost)
                 val_to_cost_lines[val_line.cost_line_id] += val_line.additional_landed_cost - val_line.additional_indivitual_landed_cost
-            logging.warning(val_to_cost_lines)
             if any(not tools.float_is_zero(cost_line.price_unit - val_amount, precision_digits=prec_digits)
                   for cost_line, val_amount in val_to_cost_lines.items()):
                 return False
