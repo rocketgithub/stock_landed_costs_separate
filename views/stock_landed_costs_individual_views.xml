@@ -26,7 +26,7 @@
             </field>
             <page name="additional_costs" position="after">
                 <page string="Costes individuales" name="individual_cost">
-                    <field name="individual_cost_line_ids" attrs="{'invisible': [('target_model', '!=', 'picking')]}">
+                    <field name="individual_cost_line_ids" invisible="target_model == 'picking'">
                         <form string="Cost Lines">
                             <group>
                                 <group>
