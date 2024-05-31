@@ -15,7 +15,7 @@ class StockLandedCost(models.Model):
     def _compute_allowed_product_ids(self):
         for cost in self:
             product_ids = []
-            for l in cost.picking_ids.move_lines:
+            for l in cost.picking_ids.move_ids:
                 product_ids.append(l.product_id.id)
             cost.allowed_product_ids = product_ids
             
